@@ -56,12 +56,14 @@ function addProduto(){
                 const id = proximoId;
                 proximoId++;
 
+                const precoBrasileiro = Number(preco.replace(/\./g, '').replace(',', '.'))
+
                 const produto = {
                     id: id,
                     nome,
                     categoria,
                     estoque: Number(estoque),
-                    preco: Number(preco.replace(",", "."))
+                    preco: precoBrasileiro
                 };
                 produtos.push(produto);
                 console.log("\nProduto adicionado com sucesso!!");
