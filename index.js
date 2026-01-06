@@ -2,6 +2,11 @@ const readline = require("readline");
 
 const readlineTwo = readline.createInterface({input: process.stdin, output: process.stdout});
 
+// ===== VARIÁVEIS GLOBAIS =====
+const produtos = [];
+let proximoId = 1;
+
+// ===== FUNÇÃO MENU =====
 function menu(){
     console.log("\nAgilStore");
     console.log("──────────\n");
@@ -41,31 +46,51 @@ function menu(){
     });
 }
 
-// === ADICIONAR PRODUTOS ===
+// ===== ADICIONAR PRODUTOS =====
 function addProduto(){
-    console.log("Em desenvolvimento");
-    menu();
+  readlineTwo.question("Nome do produto: ", (nome) => {
+    readlineTwo.question("Categoria: ", (categoria) => {
+        readlineTwo.question("Quantidade em estoque: ", (estoque) => {
+            readlineTwo.question("Preço (R$): ", (preco) => {
+
+                const id = proximoId;
+                proximoId++;
+
+                const produto = {
+                    id: id,
+                    nome,
+                    categoria,
+                    estoque: Number(estoque),
+                    preco: Number(preco.replace(",", "."))
+                };
+                produtos.push(produto);
+                console.log("\nProduto adicionado com sucesso!!");
+                menu();
+            })
+        })
+    })
+  })
 }
 
-// === LISTAR PRODUTOS ===
+// ===== LISTAR PRODUTOS =====
 function listaProduto(){
     console.log("Listar produtos - Em desenvolvimento");
     menu();
 }
 
-// === ATUALIZAR PRODUTOS ===
+// ===== ATUALIZAR PRODUTOS =====
 function atualizaProduto(){
     console.log("Atualizar produtos. - Em desenvolvimento");
     menu();
 }
 
-// === EXCLUIR PRODUTOS ===
+// ===== EXCLUIR PRODUTOS =====
 function excluirProduto(){
     console.log("Excluir produtos - Em desenvolvimento");
     menu();
 }
 
-// === BUSCAR PRODUTOS ===
+// ===== BUSCAR PRODUTOS =====
 function buscarProduto(){
     console.log("Buscar Produtos - Em desenvolvimento");
     menu();
