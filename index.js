@@ -12,19 +12,63 @@ function menu(){
     console.log("5 - Buscar Produto")
     console.log("0 - Sair");
 
-    readlineTwo.question("\nQual opção você deseja?", (opcao) => {
+    readlineTwo.question("\nQual opção você deseja? ", (opcao) => {
         console.log(`Opção escolhida: ${opcao}`);
-        if (opcao === "1"){
-            console.log("Adicionar produto");
-            menu();
-        } else if (opcao === "0"){
-            console.log("Encerrando aplicação");
+      switch (opcao){
+        case "1":
+            addProduto();
+            break;
+        case "2":
+            listaProduto();
+            break;
+        case "3":
+            atualizaProduto();
+            break;
+        case "4":
+            excluirProduto();
+            break;
+        case "5":
+            buscarProduto();
+            break;
+        case "0":
+            console.log("Aplicação encerrada");
             readlineTwo.close();
-        } else {
-            console.log("Opção inválida")
+            break;
+        default:
+            console.log("Opção inválida!");
             menu();
-        }
+      }
     });
 }
 
-menu()
+// === ADICIONAR PRODUTOS ===
+function addProduto(){
+    console.log("Em desenvolvimento");
+    menu();
+}
+
+// === LISTAR PRODUTOS ===
+function listaProduto(){
+    console.log("Listar produtos - Em desenvolvimento");
+    menu();
+}
+
+// === ATUALIZAR PRODUTOS ===
+function atualizaProduto(){
+    console.log("Atualizar produtos. - Em desenvolvimento");
+    menu();
+}
+
+// === EXCLUIR PRODUTOS ===
+function excluirProduto(){
+    console.log("Excluir produtos - Em desenvolvimento");
+    menu();
+}
+
+// === BUSCAR PRODUTOS ===
+function buscarProduto(){
+    console.log("Buscar Produtos - Em desenvolvimento");
+    menu();
+}
+
+menu();
