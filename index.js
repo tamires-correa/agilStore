@@ -113,11 +113,11 @@ readlineTwo.question("\nEscolha uma opção: ", (opcaoFiltragem) => {
 function tabelaProdutos(lista){
     console.log("\nPRODUTOS");
     console.log("──────────\n");
-    console.log("ID:   | Nome:                                | Categoria:                        | Estoque:     | Preço:");
-    console.log("-".repeat(80));
+    console.log(`${"ID:".padEnd(4)} | ${"Nome:".padEnd(27)} | ${"Categoria:".padEnd(20)} | ${"Estoque:".padEnd(8)}  | Preço:"`);
+    console.log("-".repeat(90));
 
     lista.forEach(pa =>{
-        console.log(`${String(pa.id).padEnd(3)} | ${pa.nome.padEnd(30)} | ${pa.categoria.padEnd(20)} | ${String(pa.estoque).padEnd(5)} | R$ ${pa.preco.toFixed(2).replace('.', ',')}`);
+        console.log(`${String(pa.id).padEnd(4)} | ${pa.nome.padEnd(27)} | ${pa.categoria.padEnd(20)} | ${String(pa.estoque).padEnd(9)} | R$ ${pa.preco.toFixed(2).replace('.', ',')}`);
     });
     console.log(`\nTotal: ${lista.length} produto(s)`);
 
@@ -127,8 +127,43 @@ function tabelaProdutos(lista){
 }
 // ===== FILTRAGEM POR CATEGORIA =====
 function filtroCategoria(){
-  console.log("Ordenar produtos. - Em desenvolvimento");
-    menu();
+    const arrayCategorias = [];
+
+    for (let i = 0; i < produtos.length; i ++){
+        const categorias = produtos[i].categoria;
+        if(!arrayCategorias.includes(categorias)){
+            arrayCategorias.push(categorias);
+        }
+    }
+    console.log("\nCATEGORIAS DISPONÍVEIS:");
+    console.log("───────────────────────────────\n");
+    for (let i = 0; i < arrayCategorias.length; i++){
+        console.log(`• ${arrayCategorias[i]}`);
+    }
+
+    readlineTwo.question("\nDigite a categoria ou aperte ENTER para todos: ", (categoriaEscolhida) =>{
+        let produtosFiltrados = [];
+
+        if(categoriaEscolhida.trim() === ""){
+            produtosFiltrados = produtos;
+            console.log("Todos os produtos exibidos");
+        } else {
+            for (let i = 0; i < produtos.length; i ++){
+                const produtoCategoria = produtos[i].categoria.toLowerCase();
+                const filtro = categoriaEscolhida.toLowerCase();
+                
+                if(produtoCategoria === filtro){
+                    produtosFiltrados.push(produtos[i]);
+                }
+            }
+            if (produtosFiltrados.length === 0){
+                console.log(`Nenhum produto encontrado na categoria ${categoriaEscolhida}`);
+                return filtroCategoria()
+            }
+            console.log(`Exibindo produtos da categoria: ${categoriaEscolhida}`);
+        }
+            tabelaProdutos(produtosFiltrados);
+    });
 }
 
 // ===== MENU ORDENAÇÃO =====
