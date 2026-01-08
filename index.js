@@ -56,7 +56,7 @@ function addProduto(){
                 const id = proximoId;
                 proximoId++;
 
-                const precoBrasileiro = Number(preco.replace(/\./g, '').replace(',', '.'))
+                const precoBrasileiro = Number(preco.replace(/\./g, '').replace(',', '.'));
 
                 const produto = {
                     id: id,
@@ -82,11 +82,11 @@ function listaProduto(){
         return;
     }
 // =====  OPÇÃO DE FILTRO/ORDENAÇÃO =====
-console.log("\nOPÇÕES DE FILTRO/ORDENAÇÃO");
+console.log("\nOPÇÕES DE FILTRO/ORDENAÇÃO:");
 console.log("───────────────────────────────\n");
 console.log("1 - Listar todos os produtos");
 console.log("2 - Filtrar por categoria");
-console.log("3 - Ordernar produtos");
+console.log("3 - Ordenar produtos");
 console.log("0 - Voltar ao menu inicial");
 
 readlineTwo.question("\nEscolha uma opção: ", (opcaoFiltragem) => {
@@ -111,17 +111,17 @@ readlineTwo.question("\nEscolha uma opção: ", (opcaoFiltragem) => {
 }
 // =====  TABELA DE PRODUTOS =====
 function tabelaProdutos(lista){
-    console.log("\nPRODUTOS");
+    console.log("\nPRODUTOS:");
     console.log("──────────\n");
     console.log(`${"ID:".padEnd(4)} | ${"Nome:".padEnd(27)} | ${"Categoria:".padEnd(20)} | ${"Estoque:".padEnd(8)}  | Preço:"`);
-    console.log("-".repeat(90));
+    console.log("─".repeat(90));
 
     lista.forEach(pa =>{
         console.log(`${String(pa.id).padEnd(4)} | ${pa.nome.padEnd(27)} | ${pa.categoria.padEnd(20)} | ${String(pa.estoque).padEnd(9)} | R$ ${pa.preco.toFixed(2).replace('.', ',')}`);
     });
     console.log(`\nTotal: ${lista.length} produto(s)`);
 
-    readlineTwo.question("\nPressione ENTER para voltar a tabela", () => {
+    readlineTwo.question("\nPressione ENTER para voltar nas opções de filtro/ordenação", () => {
         listaProduto();
     });
 }
@@ -136,7 +136,7 @@ function filtroCategoria(){
         }
     }
     console.log("\nCATEGORIAS DISPONÍVEIS:");
-    console.log("───────────────────────────────\n");
+    console.log("──────────────────────────\n");
     for (let i = 0; i < arrayCategorias.length; i++){
         console.log(`• ${arrayCategorias[i]}`);
     }
@@ -168,8 +168,57 @@ function filtroCategoria(){
 
 // ===== MENU ORDENAÇÃO =====
 function ordenar(){
-     console.log("Ordenar produtos. - Em desenvolvimento");
-    menu();
+    console.log("\nORDENAR POR:");
+    console.log("──────────────\n");
+    console.log("1 - Nome de A-Z");
+    console.log("2 - Nome de Z-A");
+    console.log("3 - Preço (do menor ao maior)");
+    console.log("4 - Preço (do maior ao menor)");
+    console.log("5 - Quantidade (crescente)");
+    console.log("6 - Quantidade (decrescente)");
+    console.log("0 - Voltar");
+
+    readlineTwo.question("\nEscolha uma opção: ", (ordenacao) => {
+        let produtosOrdenados = [...produtos];
+        switch (ordenacao){
+            case "1":
+                produtosOrdenados.sort((a,b) => a.nome.localeCompare(b.nome));
+                console.log("Ordenado por nome de A-Z");
+                tabelaProdutos(produtosOrdenados);
+                break;
+            case "2":
+                produtosOrdenados.sort((a,b) => b.nome.localeCompare(a.nome));
+                console.log("Ordenado por nome de Z-A");
+                tabelaProdutos(produtosOrdenados);
+                break;
+            case "3":
+                produtosOrdenados.sort((a,b) => a.preco - b.preco);
+                console.log("Ordenado por preço do menor ao maior");
+                tabelaProdutos(produtosOrdenados);
+                break;
+            case "4":
+                produtosOrdenados.sort((a,b) => b.preco - a.preco);
+                console.log("Ordenado por preço do maior ao menor");
+                tabelaProdutos(produtosOrdenados);
+                break;
+            case "5":
+                produtosOrdenados.sort((a,b) => a.estoque - b.estoque);
+                console.log("Ordenado pela quantidade (crescente)");
+                tabelaProdutos(produtosOrdenados);
+                break;
+            case "6":
+                produtosOrdenados.sort((a,b) => b.estoque - a.estoque);
+                console.log("Ordenado pela quantidade (decrescente)");
+                tabelaProdutos(produtosOrdenados);
+                break;
+            case "0":
+                listaProduto();
+                break;
+            default:
+                console.log("\nOpção inválida!");
+                ordenar();
+        }
+    });
 }
 
 // ===== ATUALIZAR PRODUTOS =====
