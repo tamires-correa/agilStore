@@ -1,13 +1,6 @@
 {
-  "proximoId": 8,
+  "proximoId": 10,
   "produtos": [
-    {
-      "id": 1,
-      "nome": "celular Galaxy Samsung s25",
-      "categoria": "Smartphone",
-      "estoque": 5,
-      "preco": 6500.8
-    },
     {
       "id": 2,
       "nome": "celular iPhone 17 - 256gb",
@@ -35,6 +28,20 @@
       "categoria": "Cabos",
       "estoque": 4,
       "preco": 50
+    },
+    {
+      "id": 8,
+      "nome": "airPods pro",
+      "categoria": "Fone",
+      "estoque": 5,
+      "preco": 2500
+    },
+    {
+      "id": 9,
+      "nome": "airPods",
+      "categoria": "Fone",
+      "estoque": 3,
+      "preco": 2400
     }
   ]
 }

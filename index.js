@@ -25,7 +25,6 @@ function salvarDados(){
     };
     fs.writeFileSync(arquivoJson, JSON.stringify(dados, null, 2), "utf8");
 }
-
 // ===== FUNÇÃO MENU =====
 function menu(){
     console.log("\nAgilStore");
@@ -407,7 +406,6 @@ function exibirDetalhesProduto(produto){
         menu();
     });
 }
-
 // ===== INICIALIZAÇÃO =====
 carregarDados();
 menu();
