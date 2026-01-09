@@ -279,8 +279,29 @@ readlineTwo.question("\nDigite o ID do produto que gostaria de atualizar: ", (id
 
 // ===== EXCLUIR PRODUTOS =====
 function excluirProduto(){
-    console.log("Excluir produtos - Em desenvolvimento");
-    menu();
+    if(produtos.length === 0){
+        console.log("\nNenhum produto cadastrado");
+        menu();
+        return;
+    }
+    readlineTwo.question("\nDigite o ID do produto que deseja excluir: ", (idDigitado) =>{
+        const index = produtos.findIndex(item => item.id === Number(idDigitado));
+        if (index === -1){
+            console.log("\nProduto não encontrado!");
+            menu();
+            return;
+        }
+    const produtoRemovido = produtos[index];
+    readlineTwo.question(`\nConfirme se deseja excluir "${produtoRemovido.nome}"? (s/n): `, (confirmacao) =>{
+        if (confirmacao.toLowerCase() === 's'){
+            produtos.splice(index, 1);
+            console.log("\nProduto excluído com sucesso!");
+        } else{
+            console.log("\nExclusão cancelada")
+        }
+        menu()
+        });
+    });
 }
 
 // ===== BUSCAR PRODUTOS =====
