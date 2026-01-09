@@ -145,8 +145,9 @@ function filtroCategoria(){
         let produtosFiltrados = [];
 
         if(categoriaEscolhida.trim() === ""){
-            produtosFiltrados = produtos;
-            console.log("Todos os produtos exibidos");
+            produtosFiltrados = [...produtos];
+            produtosFiltrados.sort((a,b) => a.categoria.localeCompare(b.categoria));
+            console.log("Todos os produtos exibidos por categoria (A-Z)");
         } else {
             for (let i = 0; i < produtos.length; i ++){
                 const produtoCategoria = produtos[i].categoria.toLowerCase();
@@ -160,6 +161,7 @@ function filtroCategoria(){
                 console.log(`Nenhum produto encontrado na categoria ${categoriaEscolhida}`);
                 return filtroCategoria()
             }
+            produtosFiltrados.sort((a,b) => a.nome.localeCompare(b.nome));
             console.log(`Exibindo produtos da categoria: ${categoriaEscolhida}`);
         }
             tabelaProdutos(produtosFiltrados);
@@ -223,8 +225,56 @@ function ordenar(){
 
 // ===== ATUALIZAR PRODUTOS =====
 function atualizaProduto(){
-       console.log("Atualizar produtos. - Em desenvolvimento");
-    menu();
+       if(produtos.length === 0){
+        console.log("\nNenhum produto cadastrado no momento");
+        menu();
+        return;
+       }
+readlineTwo.question("\nDigite o ID do produto que gostaria de atualizar: ", (idInformado) =>{
+    const id = Number(idInformado);
+    const produto = produtos.find(item => item.id === id);
+
+    if(!produto){
+        console.log("\nProduto não encontrado!");
+        menu();
+        return;
+    }
+    console.log("\nProduto encontrado!");
+    console.log(produto);
+
+    readlineTwo.question(`\nNovo nome (${produto.nome}): `, (novoNome) =>{
+        readlineTwo.question(`\nNova categoria (${produto.categoria}): `, (novaCategoria) =>{
+            readlineTwo.question(`\nNova quantidade (${produto.estoque}): `, (novaQuantidade) =>{
+                readlineTwo.question(`\nNovo preço (${produto.preco.toFixed(2).replace('.', ',')}): `, (novoPreco) =>{
+                    if (novoNome.trim() !== ""){
+                        produto.nome = novoNome;
+                    }
+                    if (novaCategoria.trim() !== ""){
+                        produto.categoria = novaCategoria;
+                    }
+                    if (novaQuantidade.trim() !== ""){
+                        const estoqueNumero = Number(novaQuantidade);
+                        if (estoqueNumero >= 0){
+                            produto.estoque = estoqueNumero;
+                        } else {
+                            console.log("Número de estoque permanece o mesmo");
+                        }
+                    }
+                    if (novoPreco.trim() !== ""){
+                        const precoAlterado = Number(novoPreco.replace(/\./g, '').replace (',', '.'));
+                        if (precoAlterado > 0){
+                            produto.preco = precoAlterado;
+                        } else {
+                            console.log("Preço original mantido");
+                        }
+                    }
+                    console.log("\nProduto atualizado com sucesso!");
+                    menu();
+                });
+            });
+        });
+    });
+});
 }
 
 // ===== EXCLUIR PRODUTOS =====
