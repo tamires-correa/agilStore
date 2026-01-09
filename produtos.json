@@ -1,0 +1,40 @@
+{
+  "proximoId": 8,
+  "produtos": [
+    {
+      "id": 1,
+      "nome": "celular Galaxy Samsung s25",
+      "categoria": "Smartphone",
+      "estoque": 5,
+      "preco": 6500.8
+    },
+    {
+      "id": 2,
+      "nome": "celular iPhone 17 - 256gb",
+      "categoria": "Smartphone",
+      "estoque": 3,
+      "preco": 7300
+    },
+    {
+      "id": 3,
+      "nome": "Apple Watch series 7",
+      "categoria": "smartWatch",
+      "estoque": 2,
+      "preco": 4200
+    },
+    {
+      "id": 5,
+      "nome": "celular iPhone 17 pro",
+      "categoria": "Smartphone",
+      "estoque": 7,
+      "preco": 10300
+    },
+    {
+      "id": 7,
+      "nome": "Cabo usb 3m",
+      "categoria": "Cabos",
+      "estoque": 4,
+      "preco": 50
+    }
+  ]
+}

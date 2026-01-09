@@ -1,10 +1,30 @@
 const readline = require("readline");
+const fs = require("fs");
+const path = require("path");
 
 const readlineTwo = readline.createInterface({input: process.stdin, output: process.stdout});
 
 // ===== VARIÁVEIS GLOBAIS =====
-const produtos = [];
+let produtos = [];
 let proximoId = 1;
+const arquivoJson = path.join(__dirname, "produtos.json");
+
+// ===== FUNÇÕES DE PERSISTÊNCIA DE DADOS =====
+function carregarDados(){
+    if (fs.existsSync(arquivoJson)){
+        const dados = fs.readFileSync(arquivoJson, "utf8");
+        const dadosCarregados = JSON.parse(dados);
+        proximoId = dadosCarregados.proximoId || 1;
+        produtos = dadosCarregados.produtos || [];
+    }
+}
+function salvarDados(){
+    const dados = {
+        proximoId: proximoId,
+        produtos: produtos,
+    };
+    fs.writeFileSync(arquivoJson, JSON.stringify(dados, null, 2), "utf8");
+}
 
 // ===== FUNÇÃO MENU =====
 function menu(){
@@ -65,6 +85,7 @@ function addProduto(){
                     preco: precoBrasileiro
                 };
                 produtos.push(produto);
+                salvarDados();
                 console.log("\nProduto adicionado com sucesso!!");
                 menu();
             })
@@ -264,6 +285,7 @@ readlineTwo.question("\nDigite o ID do produto que gostaria de atualizar: ", (id
                             console.log("Preço original mantido");
                         }
                     }
+                    salvarDados();
                     console.log("\nProduto atualizado com sucesso!");
                     menu();
                 });
@@ -290,6 +312,7 @@ function excluirProduto(){
     readlineTwo.question(`\nConfirme se deseja excluir "${produtoRemovido.nome}"? (s/n): `, (confirmacao) =>{
         if (confirmacao.toLowerCase() === 's'){
             produtos.splice(index, 1);
+            salvarDados();
             console.log("\nProduto excluído com sucesso!");
         } else{
             console.log("\nExclusão cancelada")
@@ -384,4 +407,7 @@ function exibirDetalhesProduto(produto){
         menu();
     });
 }
+
+// ===== INICIALIZAÇÃO =====
+carregarDados();
 menu();
