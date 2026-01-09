@@ -45,7 +45,6 @@ function menu(){
       }
     });
 }
-
 // ===== ADICIONAR PRODUTOS =====
 function addProduto(){
   readlineTwo.question("Nome do produto: ", (nome) => {
@@ -73,7 +72,6 @@ function addProduto(){
     })
   })
 }
-
 // ===== LISTAR PRODUTOS =====
 function listaProduto(){
     if (produtos.length === 0){
@@ -167,7 +165,6 @@ function filtroCategoria(){
             tabelaProdutos(produtosFiltrados);
     });
 }
-
 // ===== MENU ORDENAÇÃO =====
 function ordenar(){
     console.log("\nORDENAR POR:");
@@ -222,7 +219,6 @@ function ordenar(){
         }
     });
 }
-
 // ===== ATUALIZAR PRODUTOS =====
 function atualizaProduto(){
        if(produtos.length === 0){
@@ -276,7 +272,6 @@ readlineTwo.question("\nDigite o ID do produto que gostaria de atualizar: ", (id
     });
 });
 }
-
 // ===== EXCLUIR PRODUTOS =====
 function excluirProduto(){
     if(produtos.length === 0){
@@ -303,11 +298,90 @@ function excluirProduto(){
         });
     });
 }
-
 // ===== BUSCAR PRODUTOS =====
 function buscarProduto(){
-    console.log("Buscar Produtos - Em desenvolvimento");
-    menu();
-}
+    if (produtos.length === 0){
+        console.log("\nNenhum produto cadastrado");
+        menu();
+        return;
+    }
+    console.log("\nBUSCAR POR:");
+    console.log("────────────\n");
+    console.log("1 - Buscar pelo ID");
+    console.log("2 - Buscar pelo nome");
+    console.log("0 - Voltar ao menu inicial");
 
+    readlineTwo.question("\nEscolha uma opção: ", (buscaEscolhida) =>{
+        switch(buscaEscolhida){
+            case "1":
+                buscarPorId();
+                break;
+            case "2":
+                buscarPorNome();
+                break;
+            case "0":
+                menu();
+                break;
+            default:
+                console.log("\nOpção inválida!");
+                buscarProduto();
+        }
+    });
+}
+function buscarPorId(){
+    readlineTwo.question("\nDigite o ID do produto: ", (idDigitado) =>{
+        const produto = produtos.find(item => item.id === Number(idDigitado));
+        
+        if (!produto){
+            console.log("\nProduto não encontrado!");
+        } else {
+            exibirDetalhesProduto(produto);
+        }
+        readlineTwo.question("\nPressione ENTER para voltar ao menu de busca", () =>{
+            buscarProduto();
+        });
+    });
+}
+function buscarPorNome(){
+    readlineTwo.question("\nDigite o nome ou parte dele: ", (nomeDigitado) =>{
+        const resultados = produtos.filter(item => item.nome.toLowerCase().includes(nomeDigitado.toLowerCase()));
+
+        if (resultados.length === 0){
+            console.log("\nNenhum produto encontrado!");
+            readlineTwo.question("\nPressione ENTER para voltar ao menu de busca", () => {
+                buscarProduto()
+            });
+        } else if (resultados.length === 1){
+            exibirDetalhesProduto(resultados[0]);
+        } else{
+            console.log(`\n${resultados.length} PRODUTOS ENCONTRADO(S)`);
+            console.log("─".repeat(26));
+            console.log(`${"ID:".padEnd(4)} | ${"Nome:".padEnd(27)} | ${"Categoria:".padEnd(20)} | ${"Estoque:".padEnd(8)}  | Preço:`);
+            console.log("─".repeat(88));
+            
+            resultados.forEach(item => {
+              console.log(`${String(item.id).padEnd(4)} | ${item.nome.padEnd(27)} | ${item.categoria.padEnd(20)} | ${String(item.estoque).padEnd(9)} | R$ ${item.preco.toFixed(2).replace('.', ',')}`);
+            });
+            console.log(`\nTotal: ${resultados.length} produtos(s)`);
+
+            readlineTwo.question("\nPressione ENTER para voltar ao menu de busca", () =>{
+                buscarProduto();
+            });
+        }
+    });
+}
+// ===== EXIBIIR DETALHES DOS PRODUTOS =====
+function exibirDetalhesProduto(produto){
+    console.log("\nDETALHES DO PRODUTO:");
+    console.log("─────────────────────\n");
+    console.log(`ID: ${produto.id}`);
+    console.log(`Nome: ${produto.nome}`);
+    console.log(`Categoria: ${produto.categoria}`);
+    console.log(`Quantidade em estoque: ${produto.estoque} unidade(s)`);
+    console.log(`Preço: R$ ${produto.preco.toFixed(2).replace('.', ',')}`);
+ 
+    readlineTwo.question("\nPressione ENTER para voltar ao menu inicial", () => {
+        menu();
+    });
+}
 menu();
